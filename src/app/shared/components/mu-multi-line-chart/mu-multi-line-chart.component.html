@@ -1,0 +1,62 @@
+<div [id]="divId">
+  <svg [id]="svgId" letter-spacing="1" preserveAspectRatio="xMidYMin slice" viewBox="0 0 1500 700"
+    (mousemove)="mouseOver($event)" (mousewheel)="mouseWheel($event)">
+    <g>
+
+      <ng-container *ngFor="let y of yAxis">
+        <line [attr.x1]="y.x1" [attr.x2]="y.x2" [attr.y1]="y.y1" [attr.y2]="y.y2" [attr.stroke]="y.color">
+        </line>
+        <text [attr.x]="y.x1" [attr.y]="y.y1-20" [attr.fill]="y.color" [attr.font-size]="13">
+          {{y.title}}
+        </text>
+
+        <text *ngFor="let step of y.steps" [attr.x]="step.x-20" [attr.y]="step.y+3" font-size="x-small">
+          <tspan *ngFor="let title of step.titles" fill="black">{{title}}</tspan>
+        </text>
+
+        <circle *ngFor="let step of y.steps" [attr.cx]="step.x" [attr.cy]="step.y" r="3" fill="black">
+        </circle>
+      </ng-container>
+
+      <line *ngFor="let xDash of xDashAxis" [attr.x1]="xDash.x1" [attr.x2]="xDash.x2" [attr.y1]="xDash.y1"
+        [attr.y2]="xDash.y2" [attr.stroke]="xDash.color" stroke-dasharray="5" stroke-opacity="0.2"></line>
+    </g>
+
+    <g>
+      <line [attr.x1]="x1" [attr.x2]="x2" [attr.y1]="y2" [attr.y2]="y2" stroke="black">
+      </line>
+
+      <ng-container *ngFor="let step of xSteps">
+
+        <text [attr.x]="step.x-10" [attr.y]="step.y+10" font-size="x-small" dyConst="11">
+          <tspan *ngFor="let title of step.titles" dy="15" [attr.x]="step.x-10" fill="black">
+            {{title}}</tspan>
+        </text>
+
+        <circle [attr.cx]="step.x" [attr.cy]="step.y" r="3" fill="black"></circle>
+
+      </ng-container>
+
+      <line *ngFor="let yDash of yDashAxis" [attr.x1]="yDash.x1" [attr.x2]="yDash.x2" [attr.y1]="yDash.y1"
+        [attr.y2]="yDash.y2" [attr.stroke]="yDash.color" stroke-dasharray="5" stroke-opacity="0.2"></line>
+    </g>
+
+    <g>
+      <circle *ngFor="let circle of circles" [attr.cx]="circle.x" [attr.cy]="circle.y" r="0" fill="transparent"
+        [attr.dataX]="circle.dataX" [attr.dataY]="circle.dataY" [attr.dataIndex]="circle.dataIndex"></circle>
+
+      <polyline *ngFor="let polyline of polyLines" [attr.points]="polyline.points" [attr.stroke]="polyline.color"
+        stroke-width="2" fill="none"></polyline>
+    </g>
+
+    <g>
+      <line [attr.x1]="infoLineX1" [attr.x2]="infoLineX2" [attr.y1]="y1" [attr.y2]="y2" stroke="black">
+      </line>
+      <text *ngIf="rect" [attr.x]="rect.x" [attr.y]="rect.y">
+        <tspan *ngFor="let title of rect.titles" dy="17" [attr.x]="rect.x+10" fill="black">
+          {{title}}</tspan>
+      </text>
+      <!-- </rect> -->
+    </g>
+  </svg>
+</div>
